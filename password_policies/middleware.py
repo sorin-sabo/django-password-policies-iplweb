@@ -4,13 +4,17 @@ from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
     Resolver404
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
 from password_policies.conf import settings
 from password_policies.models import PasswordChangeRequired, PasswordHistory
 from password_policies.utils import PasswordCheck
 
 
-class PasswordChangeMiddleware(object):
+class PasswordChangeMiddleware(MiddlewareMixin):
     """
 A middleware to force a password change.
 
@@ -33,7 +37,19 @@ To use this middleware you need to add it to the
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'password_policies.middleware.PasswordChangeMiddleware',
-        # ... other middlewares ...
+        # ... other middleware ...
+    )
+
+
+or ``MIDDLEWARE`` if using Django 1.10 or higher:
+
+    MIDDLEWARE = (
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'password_policies.middleware.PasswordChangeMiddleware',
+        # ... other middleware ...
     )
 
 .. note::

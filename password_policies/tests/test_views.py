@@ -60,7 +60,6 @@ class PasswordChangeViewsTestCase(BaseTest):
         response = self.client.post(reverse('password_change'), data=data)
         self.assertEqual(PasswordHistory.objects.count(), 1)
         obj = PasswordHistory.objects.get()
-        self.assertRedirects(response,
-                             'http://testserver%s' % reverse('password_change_done'))
+        self.assertTrue(response.url.endswith(reverse('password_change_done')))
         obj.delete()
         self.client.logout()

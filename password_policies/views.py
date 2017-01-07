@@ -78,7 +78,9 @@ A view that allows logged in users to change their password.
         form.save()
         return super(PasswordChangeFormView, self).form_valid(form)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.request.user, **self.get_form_kwargs())
 
     def get_success_url(self):
@@ -184,7 +186,9 @@ class PasswordResetConfirmView(LoggedOutMixin, FormView):
         kwargs['validlink'] = self.validlink
         return super(PasswordResetConfirmView, self).get_context_data(**kwargs)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.user, **self.get_form_kwargs())
 
     def get_success_url(self):
