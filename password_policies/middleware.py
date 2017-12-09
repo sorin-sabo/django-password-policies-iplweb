@@ -1,7 +1,12 @@
 import re
 from datetime import timedelta
-from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
-    Resolver404
+try:
+    from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
+        Resolver404
+except ImportError:
+    from django.urls.base import reverse, resolve, NoReverseMatch, \
+        Resolver404
+
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 try:
@@ -160,8 +165,16 @@ or ``MIDDLEWARE`` if using Django 1.10 or higher:
             return
         self.now = timezone.now()
         self.url = reverse('password_change')
+
+        try:
+            # Did this ever worked? It gives error on Django 2.0
+            # and I haven't ran the test suite before that...
+            auth = request.user.is_authenticated()
+        except TypeError:
+            auth = request.user.is_authenticated
+
         if settings.PASSWORD_DURATION_SECONDS and \
-                request.user.is_authenticated() and \
+                (auth is True) and \
                 not self._is_excluded_path(request.path):
             self.check = PasswordCheck(request.user)
             self.expiry_datetime = self.check.get_expiry_datetime()
