@@ -2,7 +2,10 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.core import signing
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls.base import reverse
 from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
@@ -78,7 +81,9 @@ A view that allows logged in users to change their password.
         form.save()
         return super(PasswordChangeFormView, self).form_valid(form)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.request.user, **self.get_form_kwargs())
 
     def get_success_url(self):
@@ -184,7 +189,9 @@ class PasswordResetConfirmView(LoggedOutMixin, FormView):
         kwargs['validlink'] = self.validlink
         return super(PasswordResetConfirmView, self).get_context_data(**kwargs)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.user, **self.get_form_kwargs())
 
     def get_success_url(self):

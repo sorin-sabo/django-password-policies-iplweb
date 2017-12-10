@@ -1,16 +1,25 @@
 import re
 from datetime import timedelta
-from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
-    Resolver404
+try:
+    from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
+        Resolver404
+except ImportError:
+    from django.urls.base import reverse, resolve, NoReverseMatch, \
+        Resolver404
+
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
 from password_policies.conf import settings
 from password_policies.models import PasswordChangeRequired, PasswordHistory
 from password_policies.utils import PasswordCheck
 
 
-class PasswordChangeMiddleware(object):
+class PasswordChangeMiddleware(MiddlewareMixin):
     """
 A middleware to force a password change.
 
@@ -33,7 +42,19 @@ To use this middleware you need to add it to the
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'password_policies.middleware.PasswordChangeMiddleware',
-        # ... other middlewares ...
+        # ... other middleware ...
+    )
+
+
+or ``MIDDLEWARE`` if using Django 1.10 or higher:
+
+    MIDDLEWARE = (
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'password_policies.middleware.PasswordChangeMiddleware',
+        # ... other middleware ...
     )
 
 .. note::
@@ -144,8 +165,16 @@ To use this middleware you need to add it to the
             return
         self.now = timezone.now()
         self.url = reverse('password_change')
+
+        try:
+            # Did this ever worked? It gives error on Django 2.0
+            # and I haven't ran the test suite before that...
+            auth = request.user.is_authenticated()
+        except TypeError:
+            auth = request.user.is_authenticated
+
         if settings.PASSWORD_DURATION_SECONDS and \
-                request.user.is_authenticated() and \
+                (auth is True) and \
                 not self._is_excluded_path(request.path):
             self.check = PasswordCheck(request.user)
             self.expiry_datetime = self.check.get_expiry_datetime()
