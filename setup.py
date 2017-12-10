@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 install_requires = ['django>=1.7', 'django-easysettings']
 
 setup(
-    name='django-password-policies',
+    name='django-password-policies-iplweb',
     version=__import__('password_policies').__version__,
     description='A Django application to implent password policies.',
     long_description="""\
