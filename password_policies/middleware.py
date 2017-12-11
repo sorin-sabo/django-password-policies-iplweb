@@ -174,8 +174,7 @@ or ``MIDDLEWARE`` if using Django 1.10 or higher:
             auth = request.user.is_authenticated
 
         if settings.PASSWORD_DURATION_SECONDS and \
-                (auth is True) and \
-                not self._is_excluded_path(request.path):
+                auth and not self._is_excluded_path(request.path):
             self.check = PasswordCheck(request.user)
             self.expiry_datetime = self.check.get_expiry_datetime()
             self._check_necessary(request)
