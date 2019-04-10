@@ -7,22 +7,15 @@ django-password-policies
 provides unicode-aware password policies on password changes and resets and a
 mechanism to force password changes.
 
-.. |travis| image:: https://travis-ci.org/tarak/django-password-policies.svg?branch=master
-    :target: https://travis-ci.org/tarak/django-password-policies
-.. |coverage| image:: https://coveralls.io/repos/tarak/django-password-policies/badge.svg?branch=master
-    :target: https://coveralls.io/r/tarak/django-password-policies?branch=master
-.. |landscape| image:: https://landscape.io/github/tarak/django-password-policies/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/tarak/django-password-policies/master
-   :alt: Code Health
-.. |requires| image:: https://requires.io/github/tarak/django-password-policies/requirements.svg?branch=master
-     :target: https://requires.io/github/tarak/django-password-policies/requirements/?branch=master
-     :alt: Requirements Status
-.. |latest-version| image:: https://img.shields.io/pypi/v/django-password-policies.svg
+.. |travis| image:: https://travis-ci.org/iplweb/django-password-policies.svg?branch=master
+    :target: https://travis-ci.org/iplweb/django-password-policies-iplweb
+
+.. |coverage| image:: https://coveralls.io/repos/iplweb/django-password-policies-iplweb/badge.svg?branch=master
+    :target: https://coveralls.io/r/iplweb/django-password-policies-iplweb?branch=master
+
+.. |latest-version| image:: https://img.shields.io/pypi/v/django-password-policies-iplweb.svg
    :alt: Latest version on PyPI
-   :target: https://pypi.python.org/pypi/django-password-policies
-.. |downloads| image:: https://img.shields.io/pypi/dm/django-password-policies.svg
-   :alt: Monthly downloads from PyPI
-   :target: https://pypi.python.org/pypi/django-password-policies
+   :target: https://pypi.python.org/pypi/django-password-policies-iplweb
 
 .. _requirements:
 
