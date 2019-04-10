@@ -6,7 +6,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install: pip install tox-travis pep8
+install: pip install tox-travis pep8 coverage
 script: tox
 before_script: pep8 --ignore=E501,E225 password_policies
 after_success: coveralls
