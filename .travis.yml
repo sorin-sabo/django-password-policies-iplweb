@@ -5,10 +5,14 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+  - "3.6"
 env:
   - DJANGO="django>=1.7,<1.8"
   - DJANGO="django>=1.8,<1.9"
   - DJANGO="django>=1.9,<1.10"
+  - DJANGO="django>=1.10,<1.11"
+  - DJANGO="django>=2.0,<2.1"
+  - DJANGO="django>=2.1,<2.2"      
 install:
   - pip install -q $DJANGO
   - pip install pep8
