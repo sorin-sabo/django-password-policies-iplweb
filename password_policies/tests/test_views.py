@@ -1,8 +1,5 @@
-try:
-    from django.core.urlresolvers import reverse
-except ImportError:
-    from django.urls.base import reverse
-
+from django.urls.base import reverse
+from django.test import Client, TestCase
 from password_policies.forms import PasswordPoliciesChangeForm
 from password_policies.models import PasswordHistory
 from password_policies.tests.lib import BaseTest
@@ -11,7 +8,6 @@ from password_policies.tests.lib import passwords
 
 
 class PasswordChangeViewsTestCase(BaseTest):
-
     def setUp(self):
         self.user = create_user()
         return super(PasswordChangeViewsTestCase, self).setUp()
@@ -22,13 +18,13 @@ class PasswordChangeViewsTestCase(BaseTest):
         A ``GET`` to the ``password_change`` view uses the appropriate
         template and populates the password change form into the context.
         """
-        self.client.login(username='alice', password=passwords[-1])
-        response = self.client.get(reverse('password_change'))
+        self.client.login(username="alice", password=passwords[-1])
+        response = self.client.get(reverse("password_change"))
         self.assertEqual(response.status_code, 200)
-        self.failUnless(isinstance(response.context['form'],
-                                   PasswordPoliciesChangeForm))
-        self.assertTemplateUsed(response,
-                                'registration/password_change_form.html')
+        self.failUnless(
+            isinstance(response.context["form"], PasswordPoliciesChangeForm)
+        )
+        self.assertTemplateUsed(response, "registration/password_change_form.html")
         self.client.logout()
 
     def test_password_change_failure(self):
@@ -37,17 +33,16 @@ class PasswordChangeViewsTestCase(BaseTest):
         fails and issues the according error.
         """
         data = {
-            'old_password': 'password',
-            'new_password1': 'Chah+pher9k',
-            'new_password2': 'Chah+pher9k',
+            "old_password": "password",
+            "new_password1": "Chah+pher9k",
+            "new_password2": "Chah+pher9k",
         }
         msg = "Your old password was entered incorrectly. Please enter it again."
-        self.client.login(username='alice', password=passwords[-1])
-        response = self.client.post(reverse('password_change'), data=data)
+        self.client.login(username="alice", password=passwords[-1])
+        response = self.client.post(reverse("password_change"), data=data)
         self.assertEqual(response.status_code, 200)
-        self.failIf(response.context['form'].is_valid())
-        self.assertFormError(response, 'form', field='old_password',
-                             errors=msg)
+        self.failIf(response.context["form"].is_valid())
+        self.assertFormError(response, "form", field="old_password", errors=msg)
         self.client.logout()
 
     def test_password_change_success(self):
@@ -56,13 +51,21 @@ class PasswordChangeViewsTestCase(BaseTest):
         changes the user's password, creates a new password history entry
         for the user and issues a redirect.
         """
-        data = {'old_password': passwords[-1],
-                'new_password1': 'Chah+pher9k',
-                'new_password2': 'Chah+pher9k'}
-        self.client.login(username='alice', password=data['old_password'])
-        response = self.client.post(reverse('password_change'), data=data)
+        data = {
+            "old_password": passwords[-1],
+            "new_password1": "Chah+pher9k",
+            "new_password2": "Chah+pher9k",
+        }
+        self.client.login(username="alice", password=data["old_password"])
+        response = self.client.post(reverse("password_change"), data=data)
         self.assertEqual(PasswordHistory.objects.count(), 1)
         obj = PasswordHistory.objects.get()
-        self.assertTrue(response.url.endswith(reverse('password_change_done')))
+        self.assertTrue(response.url.endswith(reverse("password_change_done")))
         obj.delete()
         self.client.logout()
+
+
+class TestLOMixinView(TestCase):
+    def test_lomixinview(self):
+        c = Client()
+        res = c.get(reverse("loggedoutmixin"))
