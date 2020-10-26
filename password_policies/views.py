@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth import update_session_auth_hash
 from django.core import signing
 try:
     from django.core.urlresolvers import reverse
@@ -79,6 +80,9 @@ A view that allows logged in users to change their password.
 
     def form_valid(self, form):
         form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
         return super(PasswordChangeFormView, self).form_valid(form)
 
     def get_form(self, form_class=None):
