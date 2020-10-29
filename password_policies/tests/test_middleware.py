@@ -45,7 +45,7 @@ class PasswordPoliciesMiddlewareTest(BaseTest):
     def test_password_middleware_with_history(self):
         create_password_history(self.user)
         self.client.login(username='alice', password=passwords[-1])
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('home'), follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(get_response_location(response['Location']), self.redirect_url)
         self.client.logout()
@@ -53,7 +53,7 @@ class PasswordPoliciesMiddlewareTest(BaseTest):
 
     def test_password_middleware_enforced_redirect(self):
         self.client.login(username='alice', password=passwords[-1])
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('home'), follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(get_response_location(response['Location']), self.redirect_url)
         self.client.logout()
@@ -65,7 +65,7 @@ class PasswordPoliciesMiddlewareTest(BaseTest):
         self.user.save()
         p = PasswordChangeRequired.objects.create(user=self.user)
         self.client.login(username='alice', password=passwords[-1])
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('home'), follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(get_response_location(response['Location']), self.redirect_url)
         self.client.logout()
