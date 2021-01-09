@@ -1,17 +1,25 @@
-# from datetime import datetime
 import re
 from datetime import timedelta
-from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
-    Resolver404
+try:
+    from django.core.urlresolvers import resolve, reverse, NoReverseMatch, \
+        Resolver404
+except ImportError:
+    from django.urls.base import reverse, resolve, NoReverseMatch, \
+        Resolver404
+
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
 from password_policies.conf import settings
 from password_policies.models import PasswordChangeRequired, PasswordHistory
 from password_policies.utils import PasswordCheck
 
 
-class PasswordChangeMiddleware(object):
+class PasswordChangeMiddleware(MiddlewareMixin):
     """
 A middleware to force a password change.
 
@@ -34,7 +42,19 @@ To use this middleware you need to add it to the
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'password_policies.middleware.PasswordChangeMiddleware',
-        # ... other middlewares ...
+        # ... other middleware ...
+    )
+
+
+or ``MIDDLEWARE`` if using Django 1.10 or higher:
+
+    MIDDLEWARE = (
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'password_policies.middleware.PasswordChangeMiddleware',
+        # ... other middleware ...
     )
 
 .. note::
@@ -98,7 +118,7 @@ To use this middleware you need to add it to the
             request.session[self.required] = False
 
     def _is_excluded_path(self, actual_path):
-        paths = settings.PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_PATHS
+        paths = settings.PASSWORD_CHANGE_MIDDLEWARE_EXCLUDED_PATHS[:]
         path = r'^%s$' % self.url
         paths.append(path)
         media_url = settings.MEDIA_URL
@@ -140,14 +160,17 @@ To use this middleware you need to add it to the
         if request.method != 'GET':
             return
         try:
-            resolve(request.path)
+            resolve(request.path_info)
         except Resolver404:
             return
         self.now = timezone.now()
         self.url = reverse('password_change')
+
+
+        auth = request.user.is_authenticated
+
         if settings.PASSWORD_DURATION_SECONDS and \
-                request.user.is_authenticated() and \
-                not self._is_excluded_path(request.path):
+                auth and not self._is_excluded_path(request.path):
             self.check = PasswordCheck(request.user)
             self.expiry_datetime = self.check.get_expiry_datetime()
             self._check_necessary(request)

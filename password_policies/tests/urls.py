@@ -1,9 +1,18 @@
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 
-from password_policies.tests.test_views import TestHomeView
+try:
+    from django.conf.urls import patterns
+except ImportError:
+    patterns = False
+
+from password_policies.tests.views import TestHomeView, TestLoggedOutMixinView
 
 
-urlpatterns = patterns('',
-                       url(r'^password/', include('password_policies.urls')),
-                       url(r'^$', TestHomeView.as_view(), name='home'),
-                       )
+urlpatterns = [
+    url(r"^password/", include("password_policies.urls")),
+    url(r"^$", TestHomeView.as_view(), name="home"),
+    url(r"^fubar/", TestLoggedOutMixinView.as_view(), name="loggedoutmixin"),
+]
+
+if patterns:
+    urlpatterns = patterns("", *urlpatterns)  # noqa

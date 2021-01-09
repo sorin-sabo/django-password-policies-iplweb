@@ -1,0 +1,19 @@
+strictness: high
+doc-warnings: yes
+test-warnings: yes
+max-line-length: 120
+uses:
+  - django
+ignore-paths:
+    - docs
+pylint:
+  disable:
+    - missing-docstring
+    - no-self-use
+    - unused-argument
+pep8:
+  disable:
+    - N802
+pep257:
+  disable:
+    - D100

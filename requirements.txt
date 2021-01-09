@@ -1,2 +1,2 @@
-django>=1.5,<1.8
-django-easysettings>=1.0
+django>=3.0
+django-easysettings>=1.0,<2.0

@@ -1,18 +1,22 @@
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth import update_session_auth_hash
 from django.core import signing
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls.base import reverse
 from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
-from django.utils.http import base36_to_int
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 from django.views.defaults import permission_denied
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
 
 from password_policies.conf import settings
 from password_policies.forms import PasswordPoliciesForm
@@ -29,7 +33,7 @@ A view mixin which verifies that the user has not authenticated.
 """
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             template_name = settings.TEMPLATE_403_PAGE
             return permission_denied(request, template_name=template_name)
         return super(LoggedOutMixin, self).dispatch(request, *args, **kwargs)
@@ -76,9 +80,14 @@ A view that allows logged in users to change their password.
 
     def form_valid(self, form):
         form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
         return super(PasswordChangeFormView, self).form_valid(form)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.request.user, **self.get_form_kwargs())
 
     def get_success_url(self):
@@ -107,7 +116,7 @@ if set, otherwise the URL to the :class:`PasswordChangeDoneView`.
 
     def get_context_data(self, **kwargs):
         name = self.redirect_field_name
-        kwargs[name] = self.request.REQUEST.get(name, '')
+        kwargs[name] = self.request.GET.get(name, '')
         return super(PasswordChangeFormView, self).get_context_data(**kwargs)
 
 
@@ -144,14 +153,14 @@ class PasswordResetConfirmView(LoggedOutMixin, FormView):
     # @method_decorator(sensitive_post_parameters)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        self.uidb36 = args[0]
+        self.uidb64 = args[0]
         self.timestamp = args[1]
         self.signature = args[2]
         self.validlink = False
-        if self.uidb36 and self.timestamp and self.signature:
+        if self.uidb64 and self.timestamp and self.signature:
             try:
-                uid_int = base36_to_int(self.uidb36)
-                self.user = get_user_model().objects.get(id=uid_int)
+                uid = force_text(urlsafe_base64_decode(self.uidb64))
+                self.user = get_user_model().objects.get(id=uid)
             except (ValueError, get_user_model().DoesNotExist):
                 self.user = None
             else:
@@ -184,7 +193,9 @@ class PasswordResetConfirmView(LoggedOutMixin, FormView):
         kwargs['validlink'] = self.validlink
         return super(PasswordResetConfirmView, self).get_context_data(**kwargs)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
         return form_class(self.user, **self.get_form_kwargs())
 
     def get_success_url(self):

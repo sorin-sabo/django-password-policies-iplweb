@@ -11,7 +11,7 @@ Requirements
 
 This application requires
 
-* `Django`_ 1.5 or newer
+* `Django`_ 1.7 or newer
 * `django-easysettings`_
 
 .. _install-cracklib:
@@ -29,7 +29,7 @@ the `Python bindings for cracklib`_ need to be installed.
 On most linux distros it can simply be installed via a package manager. On
 Debian based distributions the according package is called:
 
-* python-crack
+* python-cracklib
 
 .. _install-levenshtein:
 
