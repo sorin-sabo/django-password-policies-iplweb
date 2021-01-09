@@ -1,7 +1,7 @@
 django-password-policies
 ========================
 
-|travis| |coverage| |landscape| |requires| |latest-version| |downloads|
+|travis| |coverage| |latest-version|
 
 ``django-password-policies-iplweb`` is an application for the `Django`_ framework that
 provides unicode-aware password policies on password changes and resets and a
