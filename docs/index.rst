@@ -5,7 +5,7 @@ django-password-policies documentation index
 ============================================
 
 
-``django-password-policies`` is an application for the `Django`_ framework that
+``django-password-policies-iplweb`` is an application for the `Django`_ framework that
 provides unicode-aware password policies on password changes and resets and a
 mechanism to force password changes.
 

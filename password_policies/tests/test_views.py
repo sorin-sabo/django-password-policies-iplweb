@@ -1,13 +1,12 @@
-from django.urls.base import reverse
 from django.test import Client, TestCase
+from django.urls.base import reverse
+
 from password_policies.forms import PasswordPoliciesChangeForm
 from password_policies.models import PasswordHistory
-from password_policies.tests.lib import BaseTest
-from password_policies.tests.lib import create_user
-from password_policies.tests.lib import passwords
+from password_policies.tests.lib import create_user, passwords
 
 
-class PasswordChangeViewsTestCase(BaseTest):
+class PasswordChangeViewsTestCase(TestCase):
     def setUp(self):
         self.user = create_user()
         return super(PasswordChangeViewsTestCase, self).setUp()
@@ -68,4 +67,4 @@ class PasswordChangeViewsTestCase(BaseTest):
 class TestLOMixinView(TestCase):
     def test_lomixinview(self):
         c = Client()
-        res = c.get(reverse("loggedoutmixin"))
+        c.get(reverse("loggedoutmixin"))

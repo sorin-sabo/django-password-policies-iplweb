@@ -1,2 +1,1 @@
 django>=3.0
-django-easysettings>=1.0,<2.0

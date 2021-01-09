@@ -3,7 +3,7 @@
 Forms
 =====
 
-``django-password-policies`` ships two :class:`django.forms.Form` classes that
+``django-password-policies-iplweb`` ships two :class:`django.forms.Form` classes that
 handles the validation of new passwords:
 
 .. automodule:: password_policies.forms

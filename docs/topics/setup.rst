@@ -14,9 +14,9 @@ templates used by the views in :mod:`django.contrib.auth` can be used,
 except the templates to send the password reset email.
 
 .. note::
-  Because ``django-password-policies`` is intended to be highly reusable it does
+  Because ``django-password-policies-iplweb`` is intended to be highly reusable it does
   not include any other templates than the ones used for testing the
-  application. It is left to programmers using ``django-password-policies`` to
+  application. It is left to programmers using ``django-password-policies-iplweb`` to
   create templates for projects as needed.
 
 * ``registration/password_change_done.html``
@@ -150,14 +150,14 @@ except the templates to send the password reset email.
 
 .. note::
   Minimal example templates can be found inside the tests module of
-  ``django-password-policies``.
+  ``django-password-policies-iplweb``.
 
 .. _setup-urls:
 
 Setting up URLs
 ===============
 
-``django-password-policies`` includes a Django ``URLconf`` which sets up URL patterns
+``django-password-policies-iplweb`` includes a Django ``URLconf`` which sets up URL patterns
 for :ref:`the views in django-password-policies <api-views>`. This ``URLconf`` can be
 found at ``password_policies.urls``, and so can simply be included in a project's
 root URL configuration. For example, to place the URLs under the prefix
@@ -174,7 +174,7 @@ Users would then be able to change their password by visiting the URL
 Adding the app to the installed applications
 ============================================
 
-To use ``django-password-policies`` in a Django project add ``password_policies`` to the
+To use ``django-password-policies-iplweb`` in a Django project add ``password_policies`` to the
 ``INSTALLED_APPS`` setting of a project.
 
 For example, one might have something like the following in a Django settings
@@ -205,7 +205,7 @@ file::
 Creating the database tables
 ============================
 
-To create the database tables needed by ``django-password-policies`` simply run
+To create the database tables needed by ``django-password-policies-iplweb`` simply run
 the following inside a project's root directory::
 
     $ python manage.py syncdb

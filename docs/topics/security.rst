@@ -55,7 +55,7 @@ works:
 
 * The password history, if enabled, stores the user's password by generating a
   newly encrypted version of the new password, each time a user changes his/her
-  password, using the included ``django-password-policies`` forms. Django
+  password, using the included ``django-password-policies-iplweb`` forms. Django
   includes a mechanism to compare a raw password with different encrypted
   passwords. No unencrypted password is saved to the database!
 

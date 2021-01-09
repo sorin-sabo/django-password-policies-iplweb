@@ -4,7 +4,7 @@
 Using the password history
 ==========================
 
-``django-password-policies`` provides a password history to "remember" user
+``django-password-policies-iplweb`` provides a password history to "remember" user
 passwords. To deactivate the password history for a project the following needs
 to be added to a project's settings file::
 
