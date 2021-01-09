@@ -24,10 +24,7 @@ As for now (Jan 2021), this fork is actively maintained by |iplweb|
 Requirements
 =============
 
-This application requires
-
-* `Django`_ 3.0 or newer
-* `django-easysettings`_
+This application requires `Django`_ 3.0 or newer
 
 .. _documentation:
 
@@ -38,5 +35,4 @@ A detailled documentation is available on `the project's GitHub Pages`_.
 
 .. _`the project's GitHub Pages`: http://github.com/iplweb/django-password-policies-iplweb
 .. _`Django`: https://www.djangoproject.com/
-.. _`django-easysettings`: https://github.com/SmileyChris/django-easysettings
 .. -`IPLweb on github`: https://github.com/iplweb/
