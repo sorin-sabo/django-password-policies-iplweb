@@ -8,7 +8,7 @@ Forcing password changes
     Forcing password changes only works if
     the :doc:`password history <password.history>` is activated.
 
-``django-password-policies`` provides the possibility to force password resets
+``django-password-policies-iplweb`` provides the possibility to force password resets
 when user passwords expire. To activate forced password changes for a project
 different settings need to be set:
 
@@ -75,7 +75,7 @@ Forcing password changes is done using the
 Using the context processor
 ---------------------------
 
-``django-password-policies`` provides a context processor that adds a template
+``django-password-policies-iplweb`` provides a context processor that adds a template
 variable to the context. To use it add it to the list of
 ``TEMPLATE_CONTEXT_PROCESSORS`` in a project's settings file::
 

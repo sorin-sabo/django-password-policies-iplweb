@@ -3,7 +3,7 @@
 Settings
 ========
 
-``django-password-policies`` uses settings to customize the behaviour
+``django-password-policies-iplweb`` uses settings to customize the behaviour
 of this application. While it provides useful defaults all of the following
 attributes can be set individually for each project by adding the attribute
 and its new value to the project's settings file:

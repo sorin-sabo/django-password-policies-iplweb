@@ -3,7 +3,7 @@
 Context processors
 ==================
 
-``django-password-policies`` provides a context processor that adds password
+``django-password-policies-iplweb`` provides a context processor that adds password
 related variables to a context:
 
 .. automodule:: password_policies.context_processors

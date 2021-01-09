@@ -11,8 +11,7 @@ Requirements
 
 This application requires
 
-* `Django`_ 1.7 or newer
-* `django-easysettings`_
+* `Django`_ 3.0 or newer
 
 .. _install-cracklib:
 
@@ -98,6 +97,5 @@ inside the Python path::
 
 
 .. _`Django`: https://www.djangoproject.com/
-.. _`django-easysettings`: https://github.com/SmileyChris/django-easysettings
 .. _`Python bindings for cracklib`: http://www.nongnu.org/python-crack/
 .. _`Levenshtein Python C extension module`: https://github.com/miohtama/python-Levenshtein
