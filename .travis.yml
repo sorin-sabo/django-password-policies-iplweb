@@ -4,7 +4,7 @@ python:
   - "3.7"
   - "3.8"
   - "3.9"
-install: pip install tox-travis pep8 coverage
+install: pip install tox-travis pycodestyle coverage
 script: tox
-before_script: pep8 --ignore=E501,E225 password_policies
+before_script: pycodestyle --ignore=E501,E225,W503 password_policies
 after_success: coveralls
