@@ -3,9 +3,11 @@ django-password-policies
 
 |travis| |coverage| |landscape| |requires| |latest-version| |downloads|
 
-``django-password-policies`` is an application for the `Django`_ framework that
+``django-password-policies-iplweb`` is an application for the `Django`_ framework that
 provides unicode-aware password policies on password changes and resets and a
 mechanism to force password changes.
+
+As for now (Jan 2021), this fork is actively maintained by |iplweb|
 
 .. |travis| image:: https://travis-ci.org/iplweb/django-password-policies.svg?branch=master
     :target: https://travis-ci.org/iplweb/django-password-policies-iplweb
@@ -24,7 +26,7 @@ Requirements
 
 This application requires
 
-* `Django`_ 1.7 or newer
+* `Django`_ 3.0 or newer
 * `django-easysettings`_
 
 .. _documentation:
@@ -34,6 +36,7 @@ Documentation
 
 A detailled documentation is available on `the project's GitHub Pages`_.
 
-.. _`the project's GitHub Pages`: http://tarak.github.com/django-password-policies
+.. _`the project's GitHub Pages`: http://github.com/iplweb/django-password-policies-iplweb
 .. _`Django`: https://www.djangoproject.com/
 .. _`django-easysettings`: https://github.com/SmileyChris/django-easysettings
+.. -`IPLweb on github`: https://github.com/iplweb/

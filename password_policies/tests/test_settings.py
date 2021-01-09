@@ -76,25 +76,14 @@ else:
 
 print(os.path.join(os.path.dirname(__file__), 'templates'))
 
-# This is to maintain compatibility with Django < 1.10
-if LooseVersion(django_version) < LooseVersion('1.10.0'):
-    MIDDLEWARE_CLASSES = (
-        'django.middleware.common.CommonMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'password_policies.middleware.PasswordChangeMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-    )
-else:
-    MIDDLEWARE = (
-        'django.middleware.common.CommonMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'password_policies.middleware.PasswordChangeMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-    )
+MIDDLEWARE = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'password_policies.middleware.PasswordChangeMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
 
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

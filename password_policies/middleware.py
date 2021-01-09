@@ -166,12 +166,8 @@ or ``MIDDLEWARE`` if using Django 1.10 or higher:
         self.now = timezone.now()
         self.url = reverse('password_change')
 
-        try:
-            # Did this ever worked? It gives error on Django 2.0
-            # and I haven't ran the test suite before that...
-            auth = request.user.is_authenticated()
-        except TypeError:
-            auth = request.user.is_authenticated
+
+        auth = request.user.is_authenticated
 
         if settings.PASSWORD_DURATION_SECONDS and \
                 auth and not self._is_excluded_path(request.path):
