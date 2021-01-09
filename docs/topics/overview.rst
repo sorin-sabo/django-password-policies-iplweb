@@ -10,7 +10,7 @@ Overview
 Features
 --------
 
-``django-password-policies`` is an application for the `Django`_ framework that
+``django-password-policies-iplweb`` is an application for the `Django`_ framework that
 
 * provides a form field and forms that handle the validation of
   unicode passwords using different validators, see :ref:`api-validators`.

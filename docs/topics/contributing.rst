@@ -4,7 +4,7 @@
 Contributing
 ============
 
-``django-password-policies`` is an open source project managed using the Git
+``django-password-policies-iplweb`` is an open source project managed using the Git
 version control system. The repository is hosted on `GitHub`_, so contributing
 is as easy as forking the project and committing back your enhancements.
 
@@ -35,5 +35,5 @@ Please note the following guidelines for contributing:
 
 .. _`PEP 8`: http://www.python.org/dev/peps/pep-0008/
 .. _`Django coding style`: http://docs.djangoproject.com/en/dev/internals/contributing/#coding-style
-.. _`GitHub`: https://github.com/tarak/django-password-policies/
+.. _`GitHub`: https://github.com/iplweb/django-password-policies-iplweb/
 .. _`Sphinx`: http://sphinx.pocoo.org/
