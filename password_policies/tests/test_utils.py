@@ -1,13 +1,11 @@
+from django.test import TestCase
+
 from password_policies.models import PasswordChangeRequired, PasswordHistory
+from password_policies.tests.lib import create_password_history, create_user
 from password_policies.utils import PasswordCheck
 
-from password_policies.tests.lib import BaseTest
-from password_policies.tests.lib import create_user
-from password_policies.tests.lib import create_password_history
 
-
-class PasswordPoliciesUtilsTest(BaseTest):
-
+class PasswordPoliciesUtilsTest(TestCase):
     def setUp(self):
         self.user = create_user()
         self.check = PasswordCheck(self.user)
@@ -28,5 +26,5 @@ class PasswordPoliciesUtilsTest(BaseTest):
         self.assertTrue(self.check.is_expired())
 
         # now we create a password now, so it isn't expired
-        PasswordHistory.objects.create(user=self.user, password='testpass')
+        PasswordHistory.objects.create(user=self.user, password="testpass")
         self.assertFalse(self.check.is_expired())

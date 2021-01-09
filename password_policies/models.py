@@ -1,10 +1,11 @@
-from django.conf import settings
+from django.conf import settings as django_settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import signals
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from password_policies.conf import settings
 from password_policies.managers import PasswordHistoryManager
 
 
@@ -21,7 +22,7 @@ class PasswordChangeRequired(models.Model):
         help_text=_("The date the entry was " "created."),
     )
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
         help_text=_("The user who needs to change " "his/her password."),
         related_name="password_change_required",
@@ -53,7 +54,7 @@ class PasswordHistory(models.Model):
         help_text=_("The encrypted password."),
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
         help_text=_("The user this password history " "entry belongs to."),
         related_name="password_history_entries",
@@ -86,10 +87,11 @@ class PasswordProfile(models.Model):
         help_text=_("The date the password was last changed."),
     )
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        django_settings.AUTH_USER_MODEL,
         verbose_name=_("user"),
         help_text=_("The user this password profile " "belongs to."),
         related_name="password_profile",
+        on_delete=models.CASCADE,
     )
 
     class Meta:
@@ -121,12 +123,12 @@ def password_change_signal(sender, instance, **kwargs):
 
 signals.pre_save.connect(
     password_change_signal,
-    sender=settings.AUTH_USER_MODEL,
+    sender=django_settings.AUTH_USER_MODEL,
     dispatch_uid="password_change_signal",
 )
 
 signals.post_save.connect(
     create_password_profile_signal,
-    sender=settings.AUTH_USER_MODEL,
+    sender=django_settings.AUTH_USER_MODEL,
     dispatch_uid="create_password_profile_signal",
 )

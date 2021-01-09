@@ -1,13 +1,11 @@
+from django.test import TestCase
+
 from password_policies.conf import settings
 from password_policies.models import PasswordHistory
-from password_policies.tests.lib import BaseTest
-from password_policies.tests.lib import create_user
-from password_policies.tests.lib import create_password_history
-from password_policies.tests.lib import passwords
+from password_policies.tests.lib import create_password_history, create_user, passwords
 
 
-class PasswordHistoryModelTestCase(BaseTest):
-
+class PasswordHistoryModelTestCase(TestCase):
     def setUp(self):
         self.user = create_user()
         create_password_history(self.user)
@@ -25,5 +23,4 @@ class PasswordHistoryModelTestCase(BaseTest):
         self.assertEqual(count, settings.PASSWORD_HISTORY_COUNT)
 
     def test_password_history_recent_passwords(self):
-        self.failIf(PasswordHistory.objects.check_password(self.user,
-                                                           passwords[-1]))
+        self.failIf(PasswordHistory.objects.check_password(self.user, passwords[-1]))
