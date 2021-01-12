@@ -1,8 +1,6 @@
 from setuptools import find_packages, setup
 
-install_requires = [
-    "django>=3.0",
-]
+install_requires = ["django"]
 
 setup(
     name="django-password-policies-iplweb",
