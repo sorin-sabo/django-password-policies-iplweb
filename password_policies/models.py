@@ -80,11 +80,13 @@ class PasswordProfile(models.Model):
         verbose_name=_("created"),
         db_index=True,
         help_text=_("The date the entry was " "created."),
+        auto_now_add=True,
     )
     last_changed = models.DateTimeField(
         verbose_name=_("last changed"),
         db_index=True,
         help_text=_("The date the password was last changed."),
+        auto_now=True,
     )
     user = models.OneToOneField(
         django_settings.AUTH_USER_MODEL,
