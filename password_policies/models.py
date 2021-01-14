@@ -114,7 +114,7 @@ def password_change_signal(sender, instance, **kwargs):
         password1 = getattr(user, settings.PASSWORD_MODEL_FIELD)
         password2 = getattr(instance, settings.PASSWORD_MODEL_FIELD)
         if not password1 == password2:
-            profile = PasswordProfile.objects.get(user=instance)
+            profile, _ign = PasswordProfile.objects.get_or_create(user=instance)
             profile.last_changed = timezone.now()
             profile.save()
     except user_model.DoesNotExist:
