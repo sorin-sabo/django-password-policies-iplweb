@@ -80,11 +80,13 @@ class PasswordProfile(models.Model):
         verbose_name=_("created"),
         db_index=True,
         help_text=_("The date the entry was " "created."),
+        auto_now_add=True,
     )
     last_changed = models.DateTimeField(
         verbose_name=_("last changed"),
         db_index=True,
         help_text=_("The date the password was last changed."),
+        auto_now=True,
     )
     user = models.OneToOneField(
         django_settings.AUTH_USER_MODEL,
@@ -114,7 +116,7 @@ def password_change_signal(sender, instance, **kwargs):
         password1 = getattr(user, settings.PASSWORD_MODEL_FIELD)
         password2 = getattr(instance, settings.PASSWORD_MODEL_FIELD)
         if not password1 == password2:
-            profile = PasswordProfile.objects.get(user=instance)
+            profile, _ign = PasswordProfile.objects.get_or_create(user=instance)
             profile.last_changed = timezone.now()
             profile.save()
     except user_model.DoesNotExist:
