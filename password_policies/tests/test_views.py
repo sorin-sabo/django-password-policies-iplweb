@@ -1,5 +1,8 @@
+from django.core import signing
 from django.test import Client, TestCase
 from django.urls.base import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 from password_policies.forms import PasswordPoliciesChangeForm
 from password_policies.models import PasswordHistory
@@ -62,6 +65,19 @@ class PasswordChangeViewsTestCase(TestCase):
         self.assertTrue(response.url.endswith(reverse("password_change_done")))
         obj.delete()
         self.client.logout()
+
+    def test_password_change_confirm(self):
+        signer = signing.TimestampSigner()
+        var = signer.sign(self.user.password).split(":")
+
+        timestamp = var[1]
+        signature = var[2]
+        uid = urlsafe_base64_encode(force_bytes(self.user.id))
+
+        res = self.client.get(
+            reverse("password_reset_confirm", args=(uid, timestamp, signature))
+        )
+        assert res.status_code == 200
 
 
 class TestLOMixinView(TestCase):
