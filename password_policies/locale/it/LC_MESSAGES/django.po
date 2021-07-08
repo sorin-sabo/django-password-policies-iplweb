@@ -112,7 +112,7 @@ msgstr "Per favore scegli una password differente, %s."
 
 #: forms/validators.py:279
 msgid "The new password is not varied enough."
-msgstr "La nuova password non è abbastanza variabile."
+msgstr "La nuova password è troppo simile alla precedente."
 
 #: forms/validators.py:339
 msgid "The new password is based on a dictionary word."
