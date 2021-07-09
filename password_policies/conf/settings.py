@@ -129,6 +129,16 @@ PASSWORD_MIN_LENGTH = getattr(settings, "PASSWORD_MIN_LENGTH", 8)
 #:
 #: Used by :validator:`LetterCountValidator`.
 PASSWORD_MIN_LETTERS = getattr(settings, "PASSWORD_MIN_LETTERS", 3)
+#: Specifies the minimum amount of required lowercase letters in a
+#: password.
+#:
+#: Used by :validator:`LowercaseLetterCountValidator`.
+PASSWORD_MIN_LOWERCASE_LETTERS = getattr(settings, "PASSWORD_MIN_LOWERCASE_LETTERS", 0)
+#: Specifies the minimum amount of required uppercase letters in a
+#: password.
+#:
+#: Used by :validator:`UppercaseLetterCountValidator`.
+PASSWORD_MIN_UPPERCASE_LETTERS = getattr(settings, "PASSWORD_MIN_UPPERCASE_LETTERS", 0)
 #: Specifies the minimum amount of required numbers in a
 #: password.
 #:

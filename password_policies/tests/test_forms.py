@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.utils.encoding import force_text
 
 from password_policies.forms import (
@@ -23,6 +24,22 @@ class PasswordPoliciesFieldTest(TestCase):
             PasswordPoliciesField,
             {"Chad+pher9k": "Chad+pher9k"},
             {u"4+53795": [u"The new password must contain 3 or more letters."]},
+        )
+
+    @override_settings(PASSWORD_MIN_LOWERCASE_LETTERS=1)
+    def test_password_field_lowercase(self):
+        self.assertFieldOutput(
+            PasswordPoliciesField,
+            {"Chad+pher9k": "Chad+pher9k"},
+            {u"CHAD+PHER9K": [u"The new password must contain 1 or more lowercase letter."]},
+        )
+
+    @override_settings(PASSWORD_MIN_UPPERCASE_LETTERS=1)
+    def test_password_field_uppercase(self):
+        self.assertFieldOutput(
+            PasswordPoliciesField,
+            {"Chad+pher9k": "Chad+pher9k"},
+            {u"chad+pher9k": [u"The new password must contain 1 or more uppercase letter."]},
         )
 
     def test_password_field_3(self):
