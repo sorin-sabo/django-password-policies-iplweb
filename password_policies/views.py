@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.utils import timezone
 
+from password_policies.exceptions import MustBeLoggedOutException
+
 try:
     from django.core.urlresolvers import reverse
 except ImportError:
@@ -37,7 +39,9 @@ class LoggedOutMixin(View):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             template_name = settings.TEMPLATE_403_PAGE
-            return permission_denied(request, template_name=template_name)
+            return permission_denied(
+                request, MustBeLoggedOutException, template_name=template_name
+            )
         return super(LoggedOutMixin, self).dispatch(request, *args, **kwargs)
 
 

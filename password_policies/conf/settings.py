@@ -171,3 +171,6 @@ REDIRECT_FIELD_NAME = getattr(settings, "REDIRECT_FIELD_NAME", auth.REDIRECT_FIE
 #: A path to a template to generate a 403 error page
 #: in the root of the template directory.
 TEMPLATE_403_PAGE = getattr(settings, "TEMPLATE_403_PAGE", "403.html")
+
+
+PASSWORD_RESET_TIMEOUT_DAYS = 1
