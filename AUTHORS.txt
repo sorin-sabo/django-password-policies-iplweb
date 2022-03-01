@@ -3,3 +3,6 @@ Original author:
 
 Maintainer:
 * Michał Pasternak, https://github.com/mpasternak
+
+Maintainer:
+* Sorin Sabo, https://github.com/sorin-sabo

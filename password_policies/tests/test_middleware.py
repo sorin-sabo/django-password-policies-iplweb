@@ -1,9 +1,7 @@
 from django.test import TestCase
 
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
+from urllib.parse import urljoin
+
 
 try:
     from django.core.urlresolvers import reverse

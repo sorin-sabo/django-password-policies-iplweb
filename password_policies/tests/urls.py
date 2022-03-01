@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 
 try:
     from django.conf.urls import patterns
@@ -9,9 +9,9 @@ from password_policies.tests.views import TestHomeView, TestLoggedOutMixinView
 
 
 urlpatterns = [
-    url(r"^password/", include("password_policies.urls")),
-    url(r"^$", TestHomeView.as_view(), name="home"),
-    url(r"^fubar/", TestLoggedOutMixinView.as_view(), name="loggedoutmixin"),
+    re_path(r"^password/", include("password_policies.urls")),
+    re_path(r"^$", TestHomeView.as_view(), name="home"),
+    re_path(r"^fubar/", TestLoggedOutMixinView.as_view(), name="loggedoutmixin"),
 ]
 
 if patterns:

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import signals
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from password_policies.conf import settings
 from password_policies.managers import PasswordHistoryManager
@@ -28,6 +28,8 @@ class PasswordChangeRequired(models.Model):
         related_name="password_change_required",
         on_delete=models.CASCADE,
     )
+
+    objects = models.Manager()
 
     class Meta:
         get_latest_by = "created"
@@ -95,6 +97,8 @@ class PasswordProfile(models.Model):
         related_name="password_profile",
         on_delete=models.CASCADE,
     )
+
+    objects = models.Manager()
 
     class Meta:
         get_latest_by = "created"
