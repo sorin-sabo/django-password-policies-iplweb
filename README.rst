@@ -7,7 +7,7 @@ django-password-policies
 provides unicode-aware password policies on password changes and resets and a
 mechanism to force password changes.
 
-As for now (March 2022), this fork is actively maintained by |iplweb|
+As for now (March 2022), this fork is actively maintained by |sorin.sabo|
 
 .. |travis| image:: https://travis-ci.org/iplweb/django-password-policies.svg?branch=master
     :target: https://travis-ci.org/iplweb/django-password-policies-iplweb
